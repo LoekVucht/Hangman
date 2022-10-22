@@ -12,7 +12,7 @@ public class SixthDamageLevel implements HangmanDamageIndicator {
         System.out.println("┌─────┐\n" +
                            "|     |\n" +
                            "|     |\n" +
-                           "|     😮\n" +
+                           "|     O\n" +
                            "|    /|\\\n" +
                            "|    /|\n");
     }
