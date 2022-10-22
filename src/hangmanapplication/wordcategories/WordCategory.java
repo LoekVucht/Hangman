@@ -1,4 +1,4 @@
-package wordcategories;
+package hangmanapplication.wordcategories;
 
 import java.util.List;
 import java.util.Random;

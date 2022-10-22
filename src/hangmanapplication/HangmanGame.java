@@ -1,7 +1,6 @@
 package hangmanapplication;
 
-import hangmanapplication.Hangman;
-import wordcategories.WordCategory;
+import hangmanapplication.wordcategories.WordCategory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +22,7 @@ public class HangmanGame {
     }
 
     public void showHangman() {
+        hangman.showHangman(wronglyGuessedLetters.size());
     }
 
     public void generateRandomWord() {
@@ -30,7 +30,7 @@ public class HangmanGame {
     }
 
     public boolean letterHasAlreadyBeenGuessed(char letter) {
-        return correctlyGuessedLetters.contains(letter);
+        return correctlyGuessedLetters.contains(letter) || wronglyGuessedLetters.contains(letter);
     }
 
     public void checkLetter(char letter) {
@@ -43,5 +43,13 @@ public class HangmanGame {
 
     public String getWord() {
         return word;
+    }
+
+    public int getAmountOfWronglyGuessedLetters() {
+        return wronglyGuessedLetters.toArray().length;
+    }
+
+    public int getAmountOfCorrectlyGuessedLetters() {
+        return correctlyGuessedLetters.toArray().length;
     }
 }

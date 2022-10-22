@@ -1,8 +1,7 @@
 package hangmanapplication;
 
-import wordcategories.MinecraftWordCategory;
-import wordcategories.WordCategory;
-import wordcategories.WordCategoryFactory;
+import hangmanapplication.wordcategories.WordCategory;
+import hangmanapplication.wordcategories.WordCategoryFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,11 +16,26 @@ public class HangmanConsole {
         printWordCategories();
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            String input = scanner.nextLine();
-            if (wordCategoryExists(input)) {
-                HangmanGame game = new HangmanGame(new Hangman(), wordCategoriesMap.get(input));
+            String wordCategoryInput = scanner.nextLine();
+            if (wordCategoryExists(wordCategoryInput)) {
+                HangmanGame game = new HangmanGame(new Hangman(), wordCategoriesMap.get(Integer.parseInt(wordCategoryInput)));
                 game.generateRandomWord();
                 System.out.println(game.getWord());
+                while (true) {
+                    System.out.println("Enter a letter.");
+                    char letterInput;
+                    try { letterInput = scanner.nextLine().charAt(0); }
+                    catch (StringIndexOutOfBoundsException e) { continue; }
+                    if (!Character.isLetter(letterInput)) continue;
+                    if (game.letterHasAlreadyBeenGuessed(letterInput)) {
+                        System.out.println("You've already guessed this letter.");
+                        continue;
+                    }
+                    game.checkLetter(letterInput);
+                    System.out.println("Amount of correctly guessed letters: " + game.getAmountOfCorrectlyGuessedLetters());
+                    System.out.println("Amount of wrongly guessed letters: " + game.getAmountOfWronglyGuessedLetters());
+                    game.showHangman();
+                }
             } else {
                 System.out.println("Enter a valid category number.");
             }
@@ -42,7 +56,7 @@ public class HangmanConsole {
         int categoryIndex = 1;
         WordCategoryFactory wordCategoryFactory = WordCategoryFactory.getInstance();
         for (WordCategory wordCategory : wordCategoryFactory.getWordCategories()) {
-            wordCategoriesMap.put(categoryIndex, wordCategoryFactory.getWordCategory("Minecraft"));
+            wordCategoriesMap.put(categoryIndex, wordCategory);
             categoryIndex++;
         }
     }
@@ -52,7 +66,7 @@ public class HangmanConsole {
             if (wordCategoriesMap.containsKey(Integer.parseInt(key))) {
                 return true;
             }
-        } catch (NumberFormatException nfe) {
+        } catch (NumberFormatException e) {
             return false;
         }
         return false;

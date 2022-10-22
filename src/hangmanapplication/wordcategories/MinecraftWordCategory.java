@@ -1,6 +1,4 @@
-package wordcategories;
-
-import hangmanapplication.Word;
+package hangmanapplication.wordcategories;
 
 import java.util.ArrayList;
 import java.util.Arrays;
