@@ -1,13 +1,29 @@
 package hangmanapplication.wordcategories;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class MinecraftWordCategory extends WordCategory {
-    private List<String> words = new ArrayList<>();
-
     public MinecraftWordCategory() {
-        super("Minecraft", Arrays.asList("creeper", "zombie", "skeleton", "wither"));
+        super("Minecraft", Arrays.asList(
+                "creeper",
+                "zombie",
+                "skeleton",
+                "wither",
+                "pickaxe",
+                "ender dragon",
+                "command block",
+                "enderman",
+                "villager",
+                "dungeon",
+                "guardian",
+                "iron golem",
+                "pillager",
+                "piglin",
+                "obsidian",
+                "netherite",
+                "enchantment",
+                "end city",
+                "nether",
+                "nether fortress"));
     }
 }

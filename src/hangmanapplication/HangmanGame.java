@@ -40,8 +40,10 @@ public class HangmanGame {
 
     public boolean allLettersHaveBeenGuessed() {
         for (char wordLetter : word.toCharArray()) {
-            if (!correctlyGuessedLetters.contains(wordLetter)) {
-                return false;
+            if (wordLetter != ' ') {
+                if (!correctlyGuessedLetters.contains(wordLetter)) {
+                    return false;
+                }
             }
         }
         return true;

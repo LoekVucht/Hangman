@@ -58,7 +58,7 @@ public class HangmanConsole {
         printLetters(game);
         guessLetters(scanner, game);
         if (game.allLettersHaveBeenGuessed()) System.out.println("You guessed the word \"" + game.getWord() + "\", and the hangman gets to live!");
-        else System.out.println("You failed to guess the word, and the hangman has died. RIP bozo!");
+        else System.out.println("You failed to guess the word \"" + game.getWord() + "\", and the hangman has died. RIP bozo!");
     }
 
     private static void guessLetters(Scanner scanner, HangmanGame game) {
@@ -91,7 +91,10 @@ public class HangmanConsole {
     private static void printLetters(HangmanGame game) {
         char[] wordLetters = game.getWord().toCharArray();
         for (char letter : wordLetters) {
-            if (game.getCorrectlyGuessedLetters().contains(letter)) {
+            if (letter == ' ') {
+                System.out.print(" ");
+            }
+            else if (game.getCorrectlyGuessedLetters().contains(letter)) {
                 System.out.print(letter + " ");
             } else {
                 System.out.print("_ ");

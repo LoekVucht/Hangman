@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 public abstract class WordCategory {
-    protected String name;
+    String name;
     private List<String> words;
 
     public WordCategory(String name, List<String> words) {

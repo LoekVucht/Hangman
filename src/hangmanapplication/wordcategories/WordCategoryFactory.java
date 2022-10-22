@@ -9,6 +9,8 @@ public class WordCategoryFactory {
 
     public WordCategoryFactory() {
         wordCategories.add(new MinecraftWordCategory());
+        wordCategories.add(new TerminallyOnlineWordCategory());
+        wordCategories.add(new PoliticiansWordCategory());
     }
 
     public static WordCategoryFactory getInstance() {
@@ -20,13 +22,5 @@ public class WordCategoryFactory {
 
     public List<WordCategory> getWordCategories() {
         return wordCategories;
-    }
-
-    public WordCategory getWordCategory(String name) {
-        switch (name) {
-            case "Minecraft":
-                return new MinecraftWordCategory();
-        }
-        return null;
     }
 }
