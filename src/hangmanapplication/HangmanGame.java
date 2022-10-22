@@ -11,13 +11,10 @@ public class HangmanGame {
     private WordCategory wordCategory;
     private String word;
     private Hangman hangman;
+    private static int MAX_ALLOWED_AMOUNT_OF_MISTAKES = 7;
 
     public HangmanGame(Hangman hangman, WordCategory wordCategory) {
         this.hangman = hangman;
-        this.wordCategory = wordCategory;
-    }
-
-    public void setWordCategory(WordCategory wordCategory) {
         this.wordCategory = wordCategory;
     }
 
@@ -39,6 +36,19 @@ public class HangmanGame {
         } else {
             correctlyGuessedLetters.add(letter);
         }
+    }
+
+    public boolean allLettersHaveBeenGuessed() {
+        for (char wordLetter : word.toCharArray()) {
+            if (!correctlyGuessedLetters.contains(wordLetter)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean maxAmountOfMistakesHaveBeenMade() {
+        return wronglyGuessedLetters.size() == MAX_ALLOWED_AMOUNT_OF_MISTAKES;
     }
 
     public String getWord() {

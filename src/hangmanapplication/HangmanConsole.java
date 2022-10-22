@@ -6,11 +6,16 @@ import hangmanapplication.wordcategories.WordCategoryFactory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class HangmanConsole {
     private static Map<Integer, WordCategory> wordCategoriesMap = new HashMap<>();
 
     public static void main(String[] args) {
+        playHangman();
+    }
+
+    private static void playHangman() {
         printOpeningMessage();
         putExistingWordCategoriesIntoMap();
         printWordCategories();
@@ -18,28 +23,81 @@ public class HangmanConsole {
         while (true) {
             String wordCategoryInput = scanner.nextLine();
             if (wordCategoryExists(wordCategoryInput)) {
-                HangmanGame game = new HangmanGame(new Hangman(), wordCategoriesMap.get(Integer.parseInt(wordCategoryInput)));
-                game.generateRandomWord();
-                System.out.println(game.getWord());
+                playGame(scanner, wordCategoryInput);
                 while (true) {
-                    System.out.println("Enter a letter.");
-                    char letterInput;
-                    try { letterInput = scanner.nextLine().charAt(0); }
-                    catch (StringIndexOutOfBoundsException e) { continue; }
-                    if (!Character.isLetter(letterInput)) continue;
-                    if (game.letterHasAlreadyBeenGuessed(letterInput)) {
-                        System.out.println("You've already guessed this letter.");
-                        continue;
+                    System.out.println("Would you like to play again? (Y/N)");
+                    String answer = scanner.nextLine();;
+                    if (answer.equalsIgnoreCase("y")) {
+                        playHangman();
+                        break;
                     }
-                    game.checkLetter(letterInput);
-                    game.showHangman();
-                    if (game.getCorrectlyGuessedLetters().size() > 0) printCorrectlyGuessedCharacters(game);
-                    if (game.getWronglyGuessedLetters().size() > 0) printWronglyGuessedCharacters(game);
+                    if (answer.equalsIgnoreCase("n")) {
+                        scanner.close();
+                        System.out.println("Thanks for playing!");
+                        try {
+                            TimeUnit.SECONDS.sleep(Long.MAX_VALUE);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        break;
+                    }
+                    else {
+                        System.out.println("Enter \"y\" or \"n\".");
+                    }
                 }
+                break;
             } else {
                 System.out.println("Enter a valid category number.");
             }
         }
+    }
+
+    private static void playGame(Scanner scanner, String wordCategoryInput) {
+        HangmanGame game = new HangmanGame(new Hangman(), wordCategoriesMap.get(Integer.parseInt(wordCategoryInput)));
+        game.generateRandomWord();
+        printLetters(game);
+        guessLetters(scanner, game);
+        if (game.allLettersHaveBeenGuessed()) System.out.println("You guessed the word \"" + game.getWord() + "\", and the hangman gets to live!");
+        else System.out.println("You failed to guess the word, and the hangman has died. RIP bozo!");
+    }
+
+    private static void guessLetters(Scanner scanner, HangmanGame game) {
+        while (!(game.allLettersHaveBeenGuessed() || game.maxAmountOfMistakesHaveBeenMade())) {
+            System.out.println("Enter a letter.");
+            String letterInput = scanner.nextLine();
+            if (letterInput.length() != 1) continue;
+            char guessedLetter;
+            try {
+                guessedLetter = letterInput.charAt(0);
+            } catch (StringIndexOutOfBoundsException e) {
+                continue;
+            }
+            if (!Character.isLetter(guessedLetter)) {
+                continue;
+            }
+            if (game.letterHasAlreadyBeenGuessed(guessedLetter)) {
+                System.out.println("You've already guessed this letter.");
+                continue;
+            }
+            game.checkLetter(guessedLetter);
+            game.showHangman();
+            if (game.allLettersHaveBeenGuessed() || game.maxAmountOfMistakesHaveBeenMade()) break;
+            printLetters(game);
+            if (game.getCorrectlyGuessedLetters().size() > 0) printCorrectlyGuessedCharacters(game);
+            if (game.getWronglyGuessedLetters().size() > 0) printWronglyGuessedCharacters(game);
+        }
+    }
+
+    private static void printLetters(HangmanGame game) {
+        char[] wordLetters = game.getWord().toCharArray();
+        for (char letter : wordLetters) {
+            if (game.getCorrectlyGuessedLetters().contains(letter)) {
+                System.out.print(letter + " ");
+            } else {
+                System.out.print("_ ");
+            }
+        }
+        System.out.println();
     }
 
     private static void printWronglyGuessedCharacters(HangmanGame game) {
