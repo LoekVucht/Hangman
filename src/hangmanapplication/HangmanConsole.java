@@ -32,14 +32,30 @@ public class HangmanConsole {
                         continue;
                     }
                     game.checkLetter(letterInput);
-                    System.out.println("Amount of correctly guessed letters: " + game.getAmountOfCorrectlyGuessedLetters());
-                    System.out.println("Amount of wrongly guessed letters: " + game.getAmountOfWronglyGuessedLetters());
                     game.showHangman();
+                    if (game.getCorrectlyGuessedLetters().size() > 0) printCorrectlyGuessedCharacters(game);
+                    if (game.getWronglyGuessedLetters().size() > 0) printWronglyGuessedCharacters(game);
                 }
             } else {
                 System.out.println("Enter a valid category number.");
             }
         }
+    }
+
+    private static void printWronglyGuessedCharacters(HangmanGame game) {
+        System.out.print("Wrongly guessed: ");
+        for (Character character : game.getWronglyGuessedLetters()) {
+            System.out.print(character + " ");
+        }
+        System.out.println();
+    }
+
+    private static void printCorrectlyGuessedCharacters(HangmanGame game) {
+        System.out.print("Correctly guessed: ");
+        for (Character character : game.getCorrectlyGuessedLetters()) {
+            System.out.print(character + " ");
+        }
+        System.out.println();
     }
 
     private static void printOpeningMessage() {

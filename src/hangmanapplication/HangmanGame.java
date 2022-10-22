@@ -45,11 +45,11 @@ public class HangmanGame {
         return word;
     }
 
-    public int getAmountOfWronglyGuessedLetters() {
-        return wronglyGuessedLetters.toArray().length;
+    public List<Character> getCorrectlyGuessedLetters() {
+        return correctlyGuessedLetters;
     }
 
-    public int getAmountOfCorrectlyGuessedLetters() {
-        return correctlyGuessedLetters.toArray().length;
+    public List<Character> getWronglyGuessedLetters() {
+        return wronglyGuessedLetters;
     }
 }
