@@ -21,7 +21,8 @@ public class PoliticiansWordCategory extends WordCategory {
                 "rutte",
                 "de croo",
                 "macron",
-                "le pen"
+                "le pen",
+                "meloni"
         ));
     }
 }

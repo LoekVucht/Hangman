@@ -13,7 +13,8 @@ public class TerminallyOnlineWordCategory extends WordCategory {
                 "cope",
                 "alixxa",
                 "loekism",
-                "yaraism"
+                "yaraism",
+                "boysmell"
         ));
     }
 }
